@@ -1,0 +1,33 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+    
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: login
+      uses: actions/heroku@master
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      with:
+        args: container:login
+    - name: push
+      uses: actions/heroku@master
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      with:
+        args: container:push -a socnet-backend web
+    - name: release
+      uses: actions/heroku@master
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      with:
+        args: container:release -a socnet-backend web
