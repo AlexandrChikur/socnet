@@ -8,6 +8,7 @@ authors = ["AlexandrChikur <sasha.chikur@mail.ru>"]
 python = "^3.7"
 fastapi = "^0.63.0"
 uvicorn = "^0.13.3"
+pydantic = {extras = ["dotenv"], version = "^1.7.3"}
 
 [tool.poetry.dev-dependencies]
 
