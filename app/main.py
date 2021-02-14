@@ -16,8 +16,6 @@ def get_application() -> FastAPI:
         description=settings.project_description,
     )
     
-    application.state.settings = settings
-    
     application.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
