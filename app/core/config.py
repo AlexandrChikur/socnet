@@ -16,5 +16,7 @@ class Settings(BaseSettings):
     debug: bool = False
     api_prefix: str = "/api"
 
+    database_url: str
+
     class Config:
         env_file = ".env"
