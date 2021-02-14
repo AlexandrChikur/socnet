@@ -1,6 +1,7 @@
 from functools import lru_cache
 
 from fastapi import Depends, FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
 from app.core import config
 
@@ -19,6 +20,15 @@ def get_application() -> FastAPI:
         debug=settings.debug,
         description=settings.project_description,
     )
+
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
     return application
 
 
