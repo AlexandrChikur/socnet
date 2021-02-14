@@ -24,4 +24,6 @@ RUN dos2unix /scripts/* && apt-get --purge remove -y dos2unix && rm -rf /var/lib
 RUN useradd -ms /bin/bash socnet
 USER socnet
 
+CMD ["bash", "/scripts/entrypoint.dev.sh"]
+
 COPY . /home/app
