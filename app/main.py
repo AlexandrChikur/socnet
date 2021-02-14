@@ -2,18 +2,16 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.api.routes.api import router as api_router
-from app.core.config import get_settings
+from app.core import config
 from app.core.events import create_shutdown_eventhandler, create_startup_eventhandler
 
 
 def get_application() -> FastAPI:
-    settings = get_settings()
-
     application = FastAPI(
-        title=settings.project_name,
-        version=settings.version,
-        debug=settings.debug,
-        description=settings.project_description,
+        title=config.PROJECT_NAME,
+        version=config.VERSION,
+        debug=config.DEBUG,
+        description=config.PROJECT_DESCRIPTION,
     )
     
     application.add_middleware(
@@ -30,7 +28,7 @@ def get_application() -> FastAPI:
     # fmt: on
 
     application.include_router(
-        api_router, prefix=settings.api_prefix
+        api_router, prefix=config.API_PREFIX
     )
 
     return application

@@ -1,10 +1,9 @@
 import databases
 import sqlalchemy
 
-from app.core.config import get_settings
+from app.core.config import DATABASE_URL
 
 
-DATABASE_URL = get_settings().database_url
-database = databases.Database(DATABASE_URL)
-engine = sqlalchemy.create_engine(DATABASE_URL)
+database = databases.Database(str(DATABASE_URL))
+engine = sqlalchemy.create_engine(str(DATABASE_URL))
 
