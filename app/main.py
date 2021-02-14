@@ -1,15 +1,9 @@
-from functools import lru_cache
-
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
-from app.core import config
+from app.api.routes.api import router as api_router
+from app.core.config import get_settings
 from app.core.events import create_shutdown_eventhandler, create_startup_eventhandler
-
-
-@lru_cache
-def get_settings():
-    return config.Settings()
 
 
 def get_application() -> FastAPI:
@@ -34,6 +28,10 @@ def get_application() -> FastAPI:
     application.add_event_handler('startup', create_startup_eventhandler(application))
     application.add_event_handler('shutdown', create_shutdown_eventhandler(application))
     # fmt: on
+
+    application.include_router(
+        api_router, prefix=settings.api_prefix + "/v" + settings.version.split(".")[0]
+    )  # Prefix is /v + MAJOR part of API version
 
     return application
 
