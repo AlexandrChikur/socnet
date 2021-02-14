@@ -1,14 +1,16 @@
 from typing import Any, Dict
 
+from app.core.config import Settings, get_settings
 from fastapi import APIRouter, Depends
 
-from app.core.config import Settings, get_settings
+from .v1 import api as api_v1
 
-router = APIRouter(
-    tags=[
-        "v1",
-    ]
-)
+router = APIRouter()
+
+# fmt: off
+router.include_router(api_v1.router, prefix="/v1", tags=["v1"])
+# fmt: on
+
 
 @router.get("/")
 async def api_info(settings: Settings = Depends(get_settings)) -> Dict[str, Any]:

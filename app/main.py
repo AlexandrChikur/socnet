@@ -30,8 +30,8 @@ def get_application() -> FastAPI:
     # fmt: on
 
     application.include_router(
-        api_router, prefix=settings.api_prefix + "/v" + settings.version.split(".")[0]
-    )  # Prefix is /v + MAJOR part of API version
+        api_router, prefix=settings.api_prefix
+    )
 
     return application
 
