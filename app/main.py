@@ -1,9 +1,10 @@
 from functools import lru_cache
 
-from fastapi import Depends, FastAPI
+from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from app.core import config
+from app.core.events import create_shutdown_eventhandler, create_startup_eventhandler
 
 
 @lru_cache
@@ -28,6 +29,11 @@ def get_application() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+
+    # fmt: off
+    application.add_event_handler('startup', create_startup_eventhandler(application))
+    application.add_event_handler('shutdown', create_shutdown_eventhandler(application))
+    # fmt: on
 
     return application
 
